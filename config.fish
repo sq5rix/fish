@@ -179,31 +179,5 @@ for pattern_file in $HOME/.config/fabric/patterns/*
     set pattern_name (basename $pattern_file)
     
     # Create an alias in the form: alias pattern_name="fabric --pattern pattern_name"
-    alias $pattern_name "fabric --pattern $pattern_name"
+    alias "p_"$pattern_name "fabric --pattern $pattern_name"
 end
-
-function yt
-    set -l video_link $argv[1]
-    fabric -y $video_link --transcript
-end
-
-
-# Fabric with fzf integration
-function fabric
-    if test (count $argv) -eq 0
-        set selected_pattern (command eza ~/.config/fabric/patterns/ | fzf --preview 'cat ~/.config/fabric/patterns/{}' --preview-window=right:70%:wrap)
-        if test $status -eq 0
-            command fabric --pattern $selected_pattern
-        end
-    else
-        command fabric $argv
-    end
-end
-
-# Individual pattern aliases for direct access
-for pattern_file in $HOME/.config/fabric/patterns/*
-    set pattern_name (basename $pattern_file)
-    alias $pattern_name "fabric --pattern $pattern_name"
-end
-
-
